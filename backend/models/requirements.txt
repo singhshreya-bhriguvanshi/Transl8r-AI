@@ -1,9 +1,14 @@
-fastapi==0.95.2
-uvicorn[standard]==0.24.0
+# fastapi==0.95.2
+# uvicorn[standard]==0.24.0
 transformers==4.35.2
 torch==2.5.0
 python-multipart==0.0.6
-pydantic==1.10.13
+# pydantic==1.10.13
 huggingface-hub==0.19.4
 sentencepiece==0.1.99
 protobuf==4.25.1 
+# fastapi==0.95.2
+# pydantic==1.10.9
+fastapi==0.103.1
+pydantic==1.10.9
+uvicorn==0.23.2
