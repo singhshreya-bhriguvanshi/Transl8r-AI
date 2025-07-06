@@ -36,16 +36,26 @@ services:
         value: 5000
       - key: NODE_ENV
         value: production
-      - key: FRONTEND_URL
+      - key: FRONTEND_HOST
         fromService:
           type: web
           name: translation-frontend
-          property: url
-      - key: PYTHON_API_URL
+          property: host
+      - key: FRONTEND_PORT
+        fromService:
+          type: web
+          name: translation-frontend
+          property: port
+      - key: PYTHON_API_HOST
         fromService:
           type: web
           name: translation-model-service
-          property: url
+          property: host
+      - key: PYTHON_API_PORT
+        fromService:
+          type: web
+          name: translation-model-service
+          property: port
       - key: RATE_LIMIT_WINDOW_MS
         value: 900000
       - key: RATE_LIMIT_MAX_REQUESTS
@@ -62,11 +72,16 @@ services:
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/build
     envVars:
-      - key: REACT_APP_API_URL
+      - key: REACT_APP_API_HOST
         fromService:
           type: web
           name: translation-backend
-          property: url
+          property: host
+      - key: REACT_APP_API_PORT
+        fromService:
+          type: web
+          name: translation-backend
+          property: port
       - key: NODE_ENV
         value: production
       - key: GENERATE_SOURCEMAP
