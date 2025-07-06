@@ -1,0 +1,6 @@
+# Large model files - will be uploaded to Railway persistent storage
+*.bin
+*.safetensors
+*.spm
+__pycache__/
+*.pyc 
