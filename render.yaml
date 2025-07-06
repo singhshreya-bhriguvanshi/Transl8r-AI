@@ -1,0 +1,77 @@
+services:
+  # Python FastAPI Model Service
+  - type: web
+    name: translation-model-service
+    env: python
+    plan: starter
+    buildCommand: pip install -r backend/models/requirements.txt
+    startCommand: cd backend/models && uvicorn model_server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 8008
+      - key: HOST
+        value: 0.0.0.0
+      - key: MODEL_BASE_PATH
+        value: /opt/render/project/src/backend/models
+      - key: MODEL_PAIRS
+        value: en-fr
+      - key: HF_HUB_OFFLINE
+        value: 1
+      - key: MAX_TEXT_LENGTH
+        value: 512
+      - key: MAX_FILE_SIZE
+        value: 10485760
+      - key: TEMP_DIR
+        value: /tmp
+    disk:
+      name: model-storage
+      mountPath: /opt/render/project/src/backend/models/en-fr
+      sizeGB: 2
+
+  # Node.js Backend API Gateway
+  - type: web
+    name: translation-backend
+    env: node
+    plan: starter
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: translation-frontend
+          property: url
+      - key: PYTHON_API_URL
+        fromService:
+          type: web
+          name: translation-model-service
+          property: url
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: MAX_FILE_SIZE
+        value: 10485760
+      - key: LOG_LEVEL
+        value: info
+
+  # React Frontend
+  - type: web
+    name: translation-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: translation-backend
+          property: url
+      - key: NODE_ENV
+        value: production
+      - key: GENERATE_SOURCEMAP
+        value: false
