@@ -45,6 +45,13 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Add root route for welcome message
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to the Translation Backend API! For health check, visit /api/health.'
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

@@ -12,22 +12,18 @@ services:
         value: 8008
       - key: HOST
         value: 0.0.0.0
-      - key: MODEL_BASE_PATH
-        value: /opt/render/project/src/backend/models
+      - key: MODEL_REPOS
+        value: ShreyaSinghBhrigu/mariammt-enfr
       - key: MODEL_PAIRS
         value: en-fr
-      - key: HF_HUB_OFFLINE
-        value: 1
+      - key: HUGGING_FACE_HUB_TOKEN
+        sync: false
       - key: MAX_TEXT_LENGTH
         value: 512
       - key: MAX_FILE_SIZE
         value: 10485760
       - key: TEMP_DIR
         value: /tmp
-    disk:
-      name: model-storage
-      mountPath: /opt/render/project/src/backend/models/en-fr
-      sizeGB: 2
 
   # Node.js Backend API Gateway
   - type: web
