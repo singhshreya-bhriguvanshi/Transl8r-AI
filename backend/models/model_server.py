@@ -44,6 +44,10 @@ for lang_pair, path in MODEL_PATHS.items():
         continue
 print(f"All models loaded. Available pairs: {list(MODELS.keys())}")
 
+model_name = os.getenv("MODEL_REPOS", "ShreyaSinghBhrigu/mariammt-enfr")
+tokenizer = MarianTokenizer.from_pretrained(model_name)
+model = MarianMTModel.from_pretrained(model_name)
+
 class TranslationRequest(BaseModel):
     text: str
 

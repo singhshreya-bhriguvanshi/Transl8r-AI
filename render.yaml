@@ -4,7 +4,6 @@ services:
     name: translation-model-service
     env: python
     plan: starter
-    pythonVersion: 3.10
     buildCommand: pip install -r backend/models/requirements.txt
     startCommand: cd backend/models && uvicorn model_server:app --host 0.0.0.0 --port $PORT
     envVars:
