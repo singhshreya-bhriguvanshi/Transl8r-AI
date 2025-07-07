@@ -7,7 +7,11 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 5000;
+
+const FRONTEND_URL = `http://${process.env.FRONTEND_HOST}:${process.env.FRONTEND_PORT}`;
+const PYTHON_API_URL = `http://${process.env.PYTHON_API_HOST}:${process.env.PYTHON_API_PORT}`;
 
 // Security middleware
 app.use(helmet());
